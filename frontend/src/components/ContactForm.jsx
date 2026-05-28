@@ -40,7 +40,6 @@ const ContactForm = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        // If there are validation errors, format them nicely
         if (data.errors) {
           const errorMessages = Object.values(data.errors).flat().join(', ');
           throw new Error(errorMessages || data.message || 'Terjadi kesalahan saat mengirim form');
@@ -50,18 +49,14 @@ const ContactForm = () => {
 
       setStatus({ loading: false, error: null, success: true });
       
-      // If success, redirect to WhatsApp link
-      if (data.link_wa) {
-        window.open(data.link_wa, '_blank');
-        
-        // Reset form after successful submission
-        setFormData({
-          nama: '',
-          email: '',
-          keperluan: 'Freelance',
-          pesan: ''
-        });
-      }
+      window.open(data.link_wa, '_blank');
+      
+      setFormData({
+        nama: '',
+        email: '',
+        keperluan: 'Freelance',
+        pesan: ''
+      });
     } catch (err) {
       setStatus({ loading: false, error: err.message, success: false });
     }
